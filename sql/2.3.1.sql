@@ -21,6 +21,8 @@ total_by_nomenclature AS (
         SUM(orders2nomenclature.count) AS total_by_nomenclature
     FROM orders2nomenclature
     JOIN public.nomenclature ON orders2nomenclature.nomenclature_id = nomenclature.id
+    JOIN public.orders ON orders.id = orders2nomenclature.orders_id
+    WHERE orders.created_date >= (now() - interval '1 month')
     GROUP BY orders2nomenclature.nomenclature_id
     ORDER BY total_by_nomenclature DESC
     LIMIT 5
